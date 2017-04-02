@@ -5,6 +5,13 @@ import java.io.FileNotFoundException;
 
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.FirebaseOptions;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import application.bean.Item;
 
 public class FirebaseDBHelper {
 
@@ -22,5 +29,24 @@ public class FirebaseDBHelper {
 		  .build();
 
 		FirebaseApp.initializeApp(options);
+	}
+	
+	public void readItems() {
+		DatabaseReference ref = FirebaseDatabase
+			    .getInstance()
+			    .getReference()
+			    .child("items");
+			ref.addListenerForSingleValueEvent(new ValueEventListener() {
+				@Override
+				public void onCancelled(DatabaseError arg0) {
+				}
+
+				@Override
+				public void onDataChange(DataSnapshot snap) {
+					for(DataSnapshot snap1 : snap.getChildren()) {
+						Item item = snap1.getValue(Item.class);
+						System.out.println(item.getText());
+					}
+				}});
 	}
 }

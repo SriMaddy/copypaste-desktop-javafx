@@ -18,6 +18,7 @@ public class Main extends Application {
 			
 			FirebaseDBHelper dbHelper = new FirebaseDBHelper();
 			dbHelper.init();
+			dbHelper.readItems();
 			
 			primaryStage.show();
 		} catch(Exception e) {
